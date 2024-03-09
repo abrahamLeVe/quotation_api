@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "models",
+  "info": {
+    "singularName": "model",
+    "pluralName": "models",
+    "displayName": "Modelos",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "unique": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": true,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "product": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product.product",
+      "inversedBy": "models"
+    },
+    "price": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::price.price",
+      "mappedBy": "model"
+    }
+  }
+}

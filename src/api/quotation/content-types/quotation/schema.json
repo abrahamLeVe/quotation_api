@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "quotations",
+  "info": {
+    "singularName": "quotation",
+    "pluralName": "quotations",
+    "displayName": "Cotizaciones",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "productos": {
+      "type": "json",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": false
+    }
+  }
+}

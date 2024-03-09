@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sub_categories",
+  "info": {
+    "singularName": "sub-category",
+    "pluralName": "sub-categories",
+    "displayName": "Sub categorías",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "maxLength": 60,
+      "minLength": 3
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true,
+      "minLength": 3,
+      "maxLength": 60
+    },
+    "description": {
+      "type": "richtext",
+      "required": false
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "sub_categories"
+    },
+    "products": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product.product",
+      "inversedBy": "sub_categories"
+    },
+    "brands": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::brand.brand",
+      "inversedBy": "sub_categories"
+    },
+    "sub_categories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::sub-category.sub-category"
+    }
+  }
+}

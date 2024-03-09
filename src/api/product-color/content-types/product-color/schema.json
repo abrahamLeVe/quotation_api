@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "product_colors",
+  "info": {
+    "singularName": "product-color",
+    "pluralName": "product-colors",
+    "displayName": "ProductColor",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 99,
+      "minLength": 3,
+      "unique": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "description": {
+      "type": "richtext",
+      "minLength": 1,
+      "maxLength": 99,
+      "required": true
+    },
+    "products": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product.product",
+      "mappedBy": "product_colors"
+    },
+    "code": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "maxLength": 30,
+      "minLength": 3
+    },
+    "prices": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::price.price",
+      "mappedBy": "product_colors"
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "kind": "collectionType",
+  "collectionName": "prices",
+  "info": {
+    "singularName": "price",
+    "pluralName": "prices",
+    "displayName": "Precios",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "unique": true,
+      "maxLength": 250,
+      "minLength": 3,
+      "required": true
+    },
+    "value": {
+      "type": "decimal",
+      "required": true,
+      "max": 9999,
+      "unique": false,
+      "min": 0,
+      "default": 0
+    },
+    "product": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product.product",
+      "inversedBy": "prices"
+    },
+    "size": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::size.size",
+      "inversedBy": "prices"
+    },
+    "model": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::model.model",
+      "inversedBy": "price"
+    },
+    "discount": {
+      "type": "decimal",
+      "default": 0
+    },
+    "product_colors": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product-color.product-color",
+      "inversedBy": "prices"
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::category.category",
+      "mappedBy": "price"
+    }
+  }
+}
