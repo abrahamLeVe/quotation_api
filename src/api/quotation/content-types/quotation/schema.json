@@ -12,13 +12,77 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "productos": {
+    "products": {
       "type": "json",
       "required": true
     },
     "email": {
       "type": "email",
+      "required": true,
+      "maxLength": 60,
+      "minLength": 3
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 60,
+      "minLength": 3
+    },
+    "ruc": {
+      "type": "string",
+      "maxLength": 11,
+      "minLength": 11
+    },
+    "dni": {
+      "type": "biginteger",
+      "max": "8",
+      "min": "0"
+    },
+    "direction": {
+      "type": "string",
+      "required": false,
+      "maxLength": 120,
+      "minLength": 3
+    },
+    "phone": {
+      "type": "string",
+      "maxLength": 16,
+      "minLength": 6
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "quotations"
+    },
+    "dayLimit": {
+      "type": "integer",
+      "max": 30,
+      "default": 7
+    },
+    "details": {
+      "type": "string",
+      "maxLength": 120
+    },
+    "notes": {
+      "type": "richtext"
+    },
+    "dateLimit": {
+      "type": "date",
       "required": false
+    },
+    "codeStatus": {
+      "type": "string",
+      "maxLength": 60,
+      "unique": false,
+      "default": "pendiente",
+      "required": true,
+      "minLength": 3
+    },
+    "state": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::state.state",
+      "inversedBy": "cotizaciones"
     }
   }
 }

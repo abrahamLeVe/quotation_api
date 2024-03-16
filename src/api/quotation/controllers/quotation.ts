@@ -5,7 +5,35 @@ export default factories.createCoreController("api::quotation.quotation", {
   async create(ctx) {
     try {
       const { body } = ctx.request;
-      await strapi.service("api::quotation.quotation").create(body);
+      console.log("body ", body);
+
+      const quotation = await strapi
+        .service("api::quotation.quotation")
+        .create(body);
+      console.log("quotation ", quotation);
+
+      const { createdAt, dayLimit } = quotation;
+      const newDateLimit = new Date(createdAt);
+      newDateLimit.setDate(newDateLimit.getDate() + dayLimit);
+
+      const status = await strapi.entityService.findMany("api::state.state", {
+        filters: {
+          code: "ENPRG",
+        },
+      });
+
+      await strapi.entityService.update(
+        "api::quotation.quotation",
+        quotation.id,
+        {
+          data: {
+            dateLimit: newDateLimit,
+            state: status[0].id,
+            codeStatus: status[0].name,
+          },
+        }
+      );
+
       await sendEmail(body.data.email);
 
       return {

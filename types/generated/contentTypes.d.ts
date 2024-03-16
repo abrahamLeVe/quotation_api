@@ -719,6 +719,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    quotations: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::quotation.quotation'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1259,8 +1264,72 @@ export interface ApiQuotationQuotation extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    productos: Attribute.JSON & Attribute.Required;
-    email: Attribute.Email;
+    products: Attribute.JSON & Attribute.Required;
+    email: Attribute.Email &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 60;
+      }>;
+    name: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 60;
+      }>;
+    ruc: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        minLength: 11;
+        maxLength: 11;
+      }>;
+    dni: Attribute.BigInteger &
+      Attribute.SetMinMax<
+        {
+          min: '0';
+          max: '8';
+        },
+        string
+      >;
+    direction: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 120;
+      }>;
+    phone: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        minLength: 6;
+        maxLength: 16;
+      }>;
+    user: Attribute.Relation<
+      'api::quotation.quotation',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    dayLimit: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          max: 30;
+        },
+        number
+      > &
+      Attribute.DefaultTo<7>;
+    details: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        maxLength: 120;
+      }>;
+    notes: Attribute.RichText;
+    dateLimit: Attribute.Date;
+    codeStatus: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 60;
+      }> &
+      Attribute.DefaultTo<'pendiente'>;
+    state: Attribute.Relation<
+      'api::quotation.quotation',
+      'manyToOne',
+      'api::state.state'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1365,6 +1434,63 @@ export interface ApiSliderSlider extends Schema.CollectionType {
   };
 }
 
+export interface ApiStateState extends Schema.CollectionType {
+  collectionName: 'states';
+  info: {
+    singularName: 'state';
+    pluralName: 'states';
+    displayName: 'Estado';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 60;
+      }> &
+      Attribute.DefaultTo<'En progreso'>;
+    description: Attribute.Text &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 120;
+      }>;
+    cotizaciones: Attribute.Relation<
+      'api::state.state',
+      'oneToMany',
+      'api::quotation.quotation'
+    >;
+    code: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 30;
+      }> &
+      Attribute.DefaultTo<'ENPRG'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::state.state',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::state.state',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiSubCategorySubCategory extends Schema.CollectionType {
   collectionName: 'sub_categories';
   info: {
@@ -1458,6 +1584,7 @@ declare module '@strapi/types' {
       'api::quotation.quotation': ApiQuotationQuotation;
       'api::size.size': ApiSizeSize;
       'api::slider.slider': ApiSliderSlider;
+      'api::state.state': ApiStateState;
       'api::sub-category.sub-category': ApiSubCategorySubCategory;
     }
   }
