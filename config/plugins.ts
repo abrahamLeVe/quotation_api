@@ -17,7 +17,7 @@ export default ({ env }) => ({
   "users-permissions": {
     config: {
       jwt: {
-        expiresIn: "30m",
+        expiresIn: "2h",
       },
       register: {
         allowedFields: ["quotations", "status"],

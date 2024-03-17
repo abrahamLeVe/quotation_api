@@ -16,16 +16,34 @@ export const sendEmail = async (email: string, quotation: any) => {
             <li>
                 <p><strong>ID:</strong> ${product.id}</p>
                 <p><strong>Título:</strong> ${product.title}</p>
-
                 ${
                   product.size
                     ? `<p><strong>Medida:</strong> ${product.size}</p>`
                     : ""
                 }
                 <p><strong>Cantidad:</strong> ${product.quantity}</p>
+                ${
+                  product.colors[0]?.id > 0
+                    ? `
+                    <p><strong>Colores:</strong></p>
+                    <ul>
+                        ${product.colors
+                          .map(
+                            (color: any) => `
+                            <li>
+                              <span style="background-color: ${color.color.attributes.code};">&nbsp;&nbsp;&nbsp;</span>
+                              <strong>${color.color.attributes.name}</strong> - Cantidad: ${color.quantity}
+                            </li>
+                        `
+                          )
+                          .join("")}
+                    </ul>
+                `
+                    : ""
+                }
                 <p><strong>Imagen:</strong> <img src="${
                   product.picture_url
-                }" alt="${product.title}" style="max-width: 100px; "></p>
+                }" alt="${product.title}" style="max-width: 100px;"></p>
             </li>
             `
               )
