@@ -1,4 +1,42 @@
-export const sendEmail = async (email: string) => {
+export const sendEmail = async (email: string, quotation: any) => {
+  const emailTemplate = {
+    subject: `Detalles de Cotización`,
+    text: `Gracias por tu cotización. Por favor, encuentra los detalles adjuntos.`,
+    html: `
+    <body>
+        <h2>Detalle de Cotización</h2>
+        <p><strong>ID de Cotización:</strong> ${quotation.id}</p>
+        <p><strong>Fecha de Creación:</strong> ${quotation.createdAt}</p>
+        <p><strong>Email:</strong> ${quotation.email}</p>
+        <h3>Productos:</h3>
+        <ul>
+            ${quotation.products
+              .map(
+                (product: any) => `
+            <li>
+                <p><strong>ID:</strong> ${product.id}</p>
+                <p><strong>Título:</strong> ${product.title}</p>
+
+                ${
+                  product.size
+                    ? `<p><strong>Medida:</strong> ${product.size}</p>`
+                    : ""
+                }
+                <p><strong>Cantidad:</strong> ${product.quantity}</p>
+                <p><strong>Imagen:</strong> <img src="${
+                  product.picture_url
+                }" alt="${product.title}" style="max-width: 100px; "></p>
+            </li>
+            `
+              )
+              .join("")}
+        </ul>
+        <p><strong>Fecha Límite:</strong> ${quotation.dateLimit}</p>
+        <p><strong>Estado:</strong> ${quotation.codeStatus}</p>
+    </body>
+    `,
+  };
+
   try {
     await strapi.plugins["email"].services.email.sendTemplatedEmail(
       {
@@ -12,12 +50,4 @@ export const sendEmail = async (email: string) => {
     console.error("Error al enviar correo electrónico:", error);
     throw error;
   }
-};
-
-const emailTemplate = {
-  subject: "Welcome user.firstname",
-  text: `Welcome to mywebsite.fr!
-        Your account is now linked with: user.email.`,
-  html: `<h1>Welcome to mywebsite.fr!</h1>
-        <p>Your account is now linked with: user.email.<p>`,
 };

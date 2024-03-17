@@ -5,12 +5,10 @@ export default factories.createCoreController("api::quotation.quotation", {
   async create(ctx) {
     try {
       const { body } = ctx.request;
-      console.log("body ", body);
 
       const quotation = await strapi
         .service("api::quotation.quotation")
         .create(body);
-      console.log("quotation ", quotation);
 
       const { createdAt, dayLimit } = quotation;
       const newDateLimit = new Date(createdAt);
@@ -22,7 +20,7 @@ export default factories.createCoreController("api::quotation.quotation", {
         },
       });
 
-      await strapi.entityService.update(
+      const quotationUp = await strapi.entityService.update(
         "api::quotation.quotation",
         quotation.id,
         {
@@ -33,8 +31,9 @@ export default factories.createCoreController("api::quotation.quotation", {
           },
         }
       );
+      console.log("quotationUp ", quotationUp);
 
-      await sendEmail(body.data.email);
+      await sendEmail(body.data.email, quotationUp);
 
       return {
         message: "Cotización creada correctamente",
