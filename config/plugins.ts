@@ -33,6 +33,12 @@ export default ({ env }) => ({
           user: env("SMTP_USERNAME"),
           pass: env("SMTP_PASSWORD"),
         },
+        settings: {
+          defaultFrom:
+            '"Consorcio A&C Eléctrica S.A.C 👻" <consorcio.electrica.sac@gmail.com>',
+          defaultReplyTo:
+            '"Consorcio A&C Eléctrica S.A.C 👻" <consorcio.electrica.sac@gmail.com>',
+        },
       },
     },
   },
