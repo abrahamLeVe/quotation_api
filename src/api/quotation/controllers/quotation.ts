@@ -31,9 +31,9 @@ export default factories.createCoreController("api::quotation.quotation", {
           },
         }
       );
-      console.log("quotationUp ", quotationUp);
+      console.log("quotationUp ", JSON.stringify(quotationUp, null, 2));
 
-      await sendEmail(body.data.email, quotationUp);
+      await sendEmail(quotationUp.email, quotationUp);
 
       return {
         message: "Cotización creada correctamente",

@@ -1272,29 +1272,25 @@ export interface ApiQuotationQuotation extends Schema.CollectionType {
         maxLength: 60;
       }>;
     name: Attribute.String &
+      Attribute.Required &
       Attribute.SetMinMaxLength<{
         minLength: 3;
-        maxLength: 60;
+        maxLength: 90;
       }>;
-    ruc: Attribute.String &
+    tipe_doc: Attribute.String &
+      Attribute.Required &
       Attribute.SetMinMaxLength<{
-        minLength: 11;
+        minLength: 3;
         maxLength: 11;
       }>;
-    dni: Attribute.BigInteger &
-      Attribute.SetMinMax<
-        {
-          min: '0';
-          max: '8';
-        },
-        string
-      >;
     direction: Attribute.String &
+      Attribute.Required &
       Attribute.SetMinMaxLength<{
         minLength: 3;
         maxLength: 120;
       }>;
     phone: Attribute.String &
+      Attribute.Required &
       Attribute.SetMinMaxLength<{
         minLength: 6;
         maxLength: 16;
@@ -1305,6 +1301,7 @@ export interface ApiQuotationQuotation extends Schema.CollectionType {
       'plugin::users-permissions.user'
     >;
     dayLimit: Attribute.Integer &
+      Attribute.Required &
       Attribute.SetMinMax<
         {
           max: 30;
@@ -1314,7 +1311,7 @@ export interface ApiQuotationQuotation extends Schema.CollectionType {
       Attribute.DefaultTo<7>;
     details: Attribute.String &
       Attribute.SetMinMaxLength<{
-        maxLength: 120;
+        maxLength: 300;
       }>;
     notes: Attribute.RichText;
     dateLimit: Attribute.Date;
@@ -1330,6 +1327,13 @@ export interface ApiQuotationQuotation extends Schema.CollectionType {
       'manyToOne',
       'api::state.state'
     >;
+    location: Attribute.JSON & Attribute.Required;
+    num_doc: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 8;
+        maxLength: 11;
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

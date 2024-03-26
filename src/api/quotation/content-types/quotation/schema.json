@@ -24,29 +24,27 @@
     },
     "name": {
       "type": "string",
-      "maxLength": 60,
-      "minLength": 3
+      "maxLength": 90,
+      "minLength": 3,
+      "required": true
     },
-    "ruc": {
+    "tipe_doc": {
       "type": "string",
       "maxLength": 11,
-      "minLength": 11
-    },
-    "dni": {
-      "type": "biginteger",
-      "max": "8",
-      "min": "0"
+      "minLength": 3,
+      "required": true
     },
     "direction": {
       "type": "string",
-      "required": false,
+      "required": true,
       "maxLength": 120,
       "minLength": 3
     },
     "phone": {
       "type": "string",
       "maxLength": 16,
-      "minLength": 6
+      "minLength": 6,
+      "required": true
     },
     "user": {
       "type": "relation",
@@ -57,11 +55,12 @@
     "dayLimit": {
       "type": "integer",
       "max": 30,
-      "default": 7
+      "default": 7,
+      "required": true
     },
     "details": {
       "type": "string",
-      "maxLength": 120
+      "maxLength": 300
     },
     "notes": {
       "type": "richtext"
@@ -83,6 +82,16 @@
       "relation": "manyToOne",
       "target": "api::state.state",
       "inversedBy": "cotizaciones"
+    },
+    "location": {
+      "type": "json",
+      "required": true
+    },
+    "num_doc": {
+      "type": "string",
+      "maxLength": 11,
+      "minLength": 8,
+      "required": true
     }
   }
 }
