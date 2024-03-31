@@ -877,16 +877,12 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
       'manyToMany',
       'api::size.size'
     >;
-    price: Attribute.Relation<
-      'api::category.category',
-      'manyToOne',
-      'api::price.price'
-    >;
     sub_categories: Attribute.Relation<
       'api::category.category',
       'oneToMany',
       'api::sub-category.sub-category'
     >;
+    description: Attribute.RichText;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1072,11 +1068,6 @@ export interface ApiPricePrice extends Schema.CollectionType {
       'api::price.price',
       'manyToMany',
       'api::product-color.product-color'
-    >;
-    categories: Attribute.Relation<
-      'api::price.price',
-      'oneToMany',
-      'api::category.category'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;

@@ -54,12 +54,6 @@
       "relation": "manyToMany",
       "target": "api::product-color.product-color",
       "inversedBy": "prices"
-    },
-    "categories": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::category.category",
-      "mappedBy": "price"
     }
   }
 }

@@ -44,17 +44,14 @@
       "target": "api::size.size",
       "mappedBy": "categories"
     },
-    "price": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::price.price",
-      "inversedBy": "categories"
-    },
     "sub_categories": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::sub-category.sub-category",
       "mappedBy": "category"
+    },
+    "description": {
+      "type": "richtext"
     }
   }
 }
