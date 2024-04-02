@@ -47,7 +47,10 @@
     },
     "discount": {
       "type": "decimal",
-      "default": 0
+      "default": 0,
+      "required": true,
+      "max": 999,
+      "min": 0
     },
     "product_colors": {
       "type": "relation",

@@ -1063,7 +1063,16 @@ export interface ApiPricePrice extends Schema.CollectionType {
       'oneToOne',
       'api::model.model'
     >;
-    discount: Attribute.Decimal & Attribute.DefaultTo<0>;
+    discount: Attribute.Decimal &
+      Attribute.Required &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+          max: 999;
+        },
+        number
+      > &
+      Attribute.DefaultTo<0>;
     product_colors: Attribute.Relation<
       'api::price.price',
       'manyToMany',
