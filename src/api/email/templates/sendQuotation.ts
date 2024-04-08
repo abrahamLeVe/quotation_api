@@ -9,7 +9,7 @@ export const sendtemplateEmailQuotation = (quotation: any) => {
         <h2>Detalle de Cotización</h2>
         <p><strong>Gracias por solicitar su cotización</strong>, a continuación 
         encontrará el detalle de la cotización que solicitó. 
-        Si tiene alguna pregunta o necesitas más información, no dudes en contactarnos.</p>
+        Si tiene alguna pregunta o necesita más información, no dude en contactarnos.</p>
         <p><strong>ID de Cotización:</strong> ${quotation.id}</p>
         <p><strong>Fecha de Creación:</strong> ${formatDate(
           quotation.createdAt
@@ -68,7 +68,12 @@ export const sendtemplateEmailQuotation = (quotation: any) => {
               .join("")}
           </tbody>
         </table>
-        <p>Gracias nuevamente por confiar en nosotros para tu cotización. Estamos aquí para responder cualquier pregunta que puedas tener o para brindarte más información sobre nuestros productos y servicios.</p>
+        <br><br>
+        <p>Gracias nuevamente por confiar en nosotros para tu cotización.</p>
+        <p><strong>Atentamente,</strong></p>
+        <p><strong>Equipo de Cotizaciones</strong></p>
+        <p><strong>Telefono de contacto: 948125398</strong></p>
+        <img src="https://res.cloudinary.com/dmpmxzyrg/image/upload/v1710720912/logo_app_e0c73ca462.png" alt="Logo de la empresa" style="max-width: 200px;">
     </body>
     `,
   };
