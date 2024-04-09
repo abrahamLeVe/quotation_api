@@ -1,6 +1,6 @@
 import { factories } from "@strapi/strapi";
 import { sendEmail } from "../../email/services/emailService";
-const axios = require("axios");
+import { senMessage } from "../../message/sendMessage";
 
 export default factories.createCoreController("api::quotation.quotation", {
   async create(ctx) {
@@ -49,53 +49,32 @@ export default factories.createCoreController("api::quotation.quotation", {
       });
     }
   },
+
   async update(ctx) {
     try {
-      const user = ctx.state.user;
-      const { body } = ctx.request;
-      console.log("use ", user);
+      const user = ctx.state.user; // Asumiendo que tienes autenticación y usuario en el estado
+      const { data } = ctx.request.body;
+      console.log("user ", user);
+      console.log("body ", JSON.stringify(data, null, 2));
 
-      console.log("body ", JSON.stringify(body, null, 2));
+      // Actualizar la cotización en la base de datos
+      const quotationUp = await strapi.entityService.update(
+        "api::quotation.quotation",
+        data.id,
+        {
+          data,
+        }
+      );
 
-      return {
-        message: "Cotización creada correctamente",
+      await sendEmail(data.email, quotationUp);
+
+      ctx.body = {
+        message: "Cotización actualizada correctamente",
       };
     } catch (error) {
-      ctx.throw(500, "Error al crear la cotización", {
+      ctx.throw(500, "Error al actualizar la cotización", {
         details: error.message,
       });
     }
   },
 });
-
-async function senMessage(id) {
-  const message = {
-    notification: {
-      title: "Nueva cotización",
-      body: `Código: ${id}`,
-    },
-    data: {
-      screen: "/",
-    },
-    to: `${process.env.MESSAGE_APP_TOKEN}`,
-  };
-  const requestOptions = {
-    method: "post",
-    url: `${process.env.MESSAGE_API_URL}`,
-    headers: {
-      Authorization: `Bearer ${process.env.MESSAGE_API_TOKEN}`,
-    },
-    data: message,
-  };
-
-  // @ts-ignore
-  const sendMessageRes = await axios(requestOptions);
-
-  if (sendMessageRes.status !== 200) {
-    throw new Error("Error al enviar la notificación");
-  }
-  console.log("message", message);
-
-  console.log("sendMessageRes.data ", sendMessageRes.data);
-  return sendMessageRes.data;
-}

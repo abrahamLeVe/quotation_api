@@ -1,4 +1,5 @@
 import { formatDate } from "../../../utilities/dataFech";
+import { Product } from "../../quotation/models/quotation.model";
 
 export const sendtemplateEmailQuotation = (quotation: any) => {
   const emailTemplate = {
@@ -17,10 +18,11 @@ export const sendtemplateEmailQuotation = (quotation: any) => {
         <p><strong>Email:</strong> ${quotation.email}</p>
         <p><strong>Fecha Límite:</strong> ${formatDate(quotation.dateLimit)}</p>
         <p><strong>Estado:</strong> ${quotation.codeStatus}</p>
+
         <table style="border-collapse: collapse; width: 100%; border: 1px solid black;">
           <thead>
             <tr>
-              <th style="border: 1px solid black;">Id</th>
+              <th style="border: 1px solid black;">Item</th>
               <th style="border: 1px solid black;">Producto</th>
               <th style="border: 1px solid black;">Medida</th>
               <th style="border: 1px solid black;">Cantidad</th>
@@ -31,16 +33,20 @@ export const sendtemplateEmailQuotation = (quotation: any) => {
           <tbody>
             ${quotation.products
               .map(
-                (product: any) => `
+                (product: Product, index) => `
               <tr>
-                <td style="border: 1px solid black; text-align: center;">${
-                  product.id
+                <td style="border: 1px solid black; text-align: center; padding: 1em;">${
+                  index + 1
                 }</td>
-                <td style="border: 1px solid black;">${product.title}</td>
-                <td style="border: 1px solid black; text-align: center;">${
+                <td style="border: 1px solid black; padding: 1em;">
+                <a href="${process.env.CLIENT_URL}/product/${product.slug}">${
+                  product.title
+                }</a>                
+                </td>
+                <td style="border: 1px solid black; text-align: center; padding: 1em;">${
                   product.size || "-"
                 }</td>
-                <td style="border: 1px solid black; text-align: center;">${
+                <td style="border: 1px solid black; text-align: center; padding: 1em;">${
                   product.quantity
                 }</td>
                 <td style="border: 1px solid black;">
@@ -71,9 +77,28 @@ export const sendtemplateEmailQuotation = (quotation: any) => {
         <br><br>
         <p>Gracias nuevamente por confiar en nosotros para tu cotización.</p>
         <p><strong>Atentamente,</strong></p>
-        <p><strong>Equipo de Cotizaciones</strong></p>
-        <p><strong>Telefono de contacto: 948125398</strong></p>
-        <img src="https://res.cloudinary.com/dmpmxzyrg/image/upload/v1710720912/logo_app_e0c73ca462.png" alt="Logo de la empresa" style="max-width: 200px;">
+        <p><strong>Equipo de Cotizaciones</strong></p> 
+        <a href=${
+          process.env.CLIENT_URL
+        }><img src="https://res.cloudinary.com/dmpmxzyrg/image/upload/v1710720912/logo_app_e0c73ca462.png" alt="Logo de la empresa" style="max-width: 200px;"></a>       
+        <p><strong>Telefono de contacto: <a href="tel:+51948125398">948125398</a></strong></p>
+        <p><strong>Email de contacto: <a href="mailto:consorcio.electrica.sac@gmail.com">consorcio.electrica.sac@gmail.com</a></strong></p>
+              
+        
+        <p>Usted puede descargar sus comprobantes atravez de su panel de administración en la página web:</p>
+
+        <ul>
+          <li><a href=${
+            process.env.CLIENT_URL
+          }>Visite nuestra tienda virtual</a></li>
+          <li><a href="${
+            process.env.CLIENT_URL
+          }/dashboard/order">Ver mis cotizaciones</a></li>
+          <li><a href="${
+            process.env.CLIENT_URL
+          }/dashboard/order">Descargar comprobante N°-${quotation.id}</a></li>
+                 
+        </ul>
     </body>
     `,
   };

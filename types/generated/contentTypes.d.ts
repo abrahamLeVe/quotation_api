@@ -1047,7 +1047,7 @@ export interface ApiPricePrice extends Schema.CollectionType {
       Attribute.SetMinMax<
         {
           min: 0;
-          max: 9999;
+          max: 999999;
         },
         number
       > &

@@ -22,7 +22,7 @@
     "value": {
       "type": "decimal",
       "required": true,
-      "max": 9999,
+      "max": 999999,
       "unique": false,
       "min": 0,
       "default": 0

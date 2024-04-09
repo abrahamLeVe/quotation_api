@@ -17,13 +17,15 @@ export interface Quotation {
   products: Product[];
 }
 
-interface Product {
+export interface Product {
   id: number;
   title: string;
   colors: Color2[];
   quantity: number;
+  discout: number;
   picture_url: string;
   size?: string;
+  slug: string;
 }
 
 interface Color2 {
