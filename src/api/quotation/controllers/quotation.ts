@@ -52,12 +52,11 @@ export default factories.createCoreController("api::quotation.quotation", {
 
   async update(ctx) {
     try {
-      const user = ctx.state.user; // Asumiendo que tienes autenticación y usuario en el estado
+      const user = ctx.state.user;
       const { data } = ctx.request.body;
       console.log("user ", user);
       console.log("body ", JSON.stringify(data, null, 2));
 
-      // Actualizar la cotización en la base de datos
       const quotationUp = await strapi.entityService.update(
         "api::quotation.quotation",
         data.id,
