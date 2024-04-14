@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "payments",
+  "info": {
+    "singularName": "payment",
+    "pluralName": "payments",
+    "displayName": "Pagos",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "amount": {
+      "type": "decimal",
+      "required": true,
+      "min": 3,
+      "max": 999999
+    },
+    "status": {
+      "type": "string",
+      "required": true,
+      "maxLength": 60,
+      "minLength": 3
+    },
+    "quotation": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::quotation.quotation"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "payments"
+    },
+    "payment_id": {
+      "type": "float",
+      "required": true,
+      "min": 999999999,
+      "max": 9999999999,
+      "unique": true
+    }
+  }
+}

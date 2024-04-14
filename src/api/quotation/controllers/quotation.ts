@@ -7,7 +7,6 @@ export default factories.createCoreController("api::quotation.quotation", {
     try {
       const user = ctx.state.user;
       const { body } = ctx.request;
-      console.log("use ", user);
 
       const quotation = await strapi
         .service("api::quotation.quotation")
@@ -35,7 +34,7 @@ export default factories.createCoreController("api::quotation.quotation", {
         }
       );
 
-      console.log("quotationUp ", JSON.stringify(quotationUp, null, 2));
+      // console.log("quotationUp ", JSON.stringify(quotationUp, null, 2));
 
       await sendEmail(quotationUp.email, quotationUp);
       await senMessage(quotationUp.id);
@@ -54,8 +53,6 @@ export default factories.createCoreController("api::quotation.quotation", {
     try {
       const user = ctx.state.user;
       const { data } = ctx.request.body;
-      console.log("user ", user);
-      console.log("body ", JSON.stringify(data, null, 2));
 
       const quotationUp = await strapi.entityService.update(
         "api::quotation.quotation",

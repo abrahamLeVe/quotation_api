@@ -729,6 +729,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToMany',
       'api::quotation.quotation'
     >;
+    payments: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::payment.payment'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1021,6 +1026,71 @@ export interface ApiNewsletterNewsletter extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::newsletter.newsletter',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiPaymentPayment extends Schema.CollectionType {
+  collectionName: 'payments';
+  info: {
+    singularName: 'payment';
+    pluralName: 'payments';
+    displayName: 'Pagos';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    amount: Attribute.Decimal &
+      Attribute.Required &
+      Attribute.SetMinMax<
+        {
+          min: 3;
+          max: 999999;
+        },
+        number
+      >;
+    status: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 60;
+      }>;
+    quotation: Attribute.Relation<
+      'api::payment.payment',
+      'oneToOne',
+      'api::quotation.quotation'
+    >;
+    user: Attribute.Relation<
+      'api::payment.payment',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    payment_id: Attribute.Float &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetMinMax<
+        {
+          min: 999999999;
+          max: 9999999999;
+        },
+        number
+      >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::payment.payment',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::payment.payment',
       'oneToOne',
       'admin::user'
     > &
@@ -1587,6 +1657,7 @@ declare module '@strapi/types' {
       'api::document.document': ApiDocumentDocument;
       'api::model.model': ApiModelModel;
       'api::newsletter.newsletter': ApiNewsletterNewsletter;
+      'api::payment.payment': ApiPaymentPayment;
       'api::price.price': ApiPricePrice;
       'api::product.product': ApiProductProduct;
       'api::product-color.product-color': ApiProductColorProductColor;
