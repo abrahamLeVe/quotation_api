@@ -36,10 +36,8 @@
       "inversedBy": "payments"
     },
     "payment_id": {
-      "type": "float",
+      "type": "biginteger",
       "required": true,
-      "min": 999999999,
-      "max": 9999999999,
       "unique": true
     }
   }

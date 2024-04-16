@@ -9,7 +9,11 @@ import { senMessage } from "../../message/sendMessage";
 export default factories.createCoreController("api::payment.payment", {
   async create(ctx) {
     try {
+      const user = ctx.state.user;
       const { body } = ctx.request;
+      const userData = {
+        observer: false,
+      };
 
       await strapi.service("api::payment.payment").create(body);
 
@@ -29,10 +33,16 @@ export default factories.createCoreController("api::payment.payment", {
           },
         }
       );
+
       /*Otra plantilla con diferente mensaje */
       await sendEmail(quotationUp.email, quotationUp);
       /*mensaje con diferente nombre*/
       await senMessage(quotationUp.id);
+      await strapi.entityService.update(
+        "plugin::users-permissions.user",
+        user.id,
+        { data: userData }
+      );
 
       return {
         message: "Pago resgistrado correctamente",
