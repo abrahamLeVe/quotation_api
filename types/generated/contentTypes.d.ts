@@ -733,9 +733,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToMany',
       'api::payment.payment'
     >;
-    observer: Attribute.Boolean &
-      Attribute.Required &
-      Attribute.DefaultTo<false>;
+    observer: Attribute.Boolean & Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

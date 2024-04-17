@@ -20,7 +20,7 @@ export default ({ env }) => ({
         expiresIn: "10h",
       },
       register: {
-        allowedFields: ["quotations", "status"],
+        allowedFields: ["quotations", "payments", "observer"],
       },
     },
   },
