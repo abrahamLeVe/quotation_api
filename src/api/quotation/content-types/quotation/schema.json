@@ -92,6 +92,12 @@
       "maxLength": 11,
       "minLength": 8,
       "required": true
+    },
+    "pago": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::payment.payment",
+      "mappedBy": "cotizacion"
     }
   }
 }

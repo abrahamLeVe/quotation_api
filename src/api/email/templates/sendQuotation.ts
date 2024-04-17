@@ -18,6 +18,9 @@ export const sendtemplateEmailQuotation = (quotation: any) => {
         <p><strong>Email:</strong> ${quotation.email}</p>
         <p><strong>Fecha Límite:</strong> ${formatDate(quotation.dateLimit)}</p>
         <p><strong>Estado:</strong> ${quotation.codeStatus}</p>
+        <li><a href="${
+          process.env.CLIENT_URL
+        }/dashboard/order">Descargar comprobante N°${quotation.id}</a></li>
 
         <table style="border-collapse: collapse; width: 100%; border: 1px solid black;">
           <thead>
@@ -75,6 +78,18 @@ export const sendtemplateEmailQuotation = (quotation: any) => {
           </tbody>
         </table>
         <br><br>
+        <p>Usted puede descargar sus comprobantes atravez de su panel de administración en la página web:</p>
+
+        <ul>
+          <li><a href=${
+            process.env.CLIENT_URL
+          }>Visite nuestra tienda virtual</a></li>
+          <li><a href="${
+            process.env.CLIENT_URL
+          }/dashboard/order">Ver mis cotizaciones</a></li>
+                           
+        </ul>
+        <br><br>
         <p>Gracias nuevamente por confiar en nosotros para tu cotización.</p>
         <p><strong>Atentamente,</strong></p>
         <p><strong>Equipo de Cotizaciones</strong></p> 
@@ -85,20 +100,7 @@ export const sendtemplateEmailQuotation = (quotation: any) => {
         <p><strong>Email de contacto: <a href="mailto:consorcio.electrica.sac@gmail.com">consorcio.electrica.sac@gmail.com</a></strong></p>
               
         
-        <p>Usted puede descargar sus comprobantes atravez de su panel de administración en la página web:</p>
-
-        <ul>
-          <li><a href=${
-            process.env.CLIENT_URL
-          }>Visite nuestra tienda virtual</a></li>
-          <li><a href="${
-            process.env.CLIENT_URL
-          }/dashboard/order">Ver mis cotizaciones</a></li>
-          <li><a href="${
-            process.env.CLIENT_URL
-          }/dashboard/order">Descargar comprobante N°-${quotation.id}</a></li>
-                 
-        </ul>
+        
     </body>
     `,
   };

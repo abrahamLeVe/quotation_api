@@ -48,7 +48,7 @@ export default factories.createCoreController("api::quotation.quotation", {
       );
 
       await sendEmail(quotationUp.email, quotationUp);
-      await senMessage(quotationUp.id);
+      await senMessage(Number(quotationUp.id), "Nueva cotización");
 
       return {
         message: "Cotización creada correctamente",
@@ -62,19 +62,21 @@ export default factories.createCoreController("api::quotation.quotation", {
 
   async update(ctx) {
     try {
-      const user = ctx.state.user;
+      // const user = ctx.state.user;
       const { data } = ctx.request.body;
 
       const userData = {
         observer: false,
       };
 
-      if (data.codeStatus !== "Completada") {
-        await strapi.entityService.update(
-          "plugin::users-permissions.user",
-          user.id,
-          { data: userData }
-        );
+      if (data.publishedAt !== null) {
+        if (data.codeStatus !== "Completada") {
+          await strapi.entityService.update(
+            "plugin::users-permissions.user",
+            data.userId,
+            { data: userData }
+          );
+        }
       }
 
       const status = await strapi.entityService.findMany("api::state.state", {

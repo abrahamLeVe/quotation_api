@@ -34,10 +34,8 @@ export default ({ env }) => ({
           pass: env("SMTP_PASSWORD"),
         },
         settings: {
-          defaultFrom:
-            '"Consorcio A&C Eléctrica S.A.C 👻" <consorcio.electrica.sac@gmail.com>',
-          defaultReplyTo:
-            '"Consorcio A&C Eléctrica S.A.C 👻" <consorcio.electrica.sac@gmail.com>',
+          defaultFrom: "consorcio.electrica.sac@gmail.com",
+          defaultReplyTo: "consorcio.electrica.sac@gmail.com",
         },
       },
     },

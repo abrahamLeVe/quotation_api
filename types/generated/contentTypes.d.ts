@@ -1062,17 +1062,17 @@ export interface ApiPaymentPayment extends Schema.CollectionType {
         minLength: 3;
         maxLength: 60;
       }>;
-    quotation: Attribute.Relation<
-      'api::payment.payment',
-      'oneToOne',
-      'api::quotation.quotation'
-    >;
     user: Attribute.Relation<
       'api::payment.payment',
       'manyToOne',
       'plugin::users-permissions.user'
     >;
     payment_id: Attribute.BigInteger & Attribute.Required & Attribute.Unique;
+    cotizacion: Attribute.Relation<
+      'api::payment.payment',
+      'oneToOne',
+      'api::quotation.quotation'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1402,6 +1402,11 @@ export interface ApiQuotationQuotation extends Schema.CollectionType {
         minLength: 8;
         maxLength: 11;
       }>;
+    pago: Attribute.Relation<
+      'api::quotation.quotation',
+      'oneToOne',
+      'api::payment.payment'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

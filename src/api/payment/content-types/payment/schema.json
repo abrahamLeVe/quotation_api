@@ -24,11 +24,6 @@
       "maxLength": 60,
       "minLength": 3
     },
-    "quotation": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::quotation.quotation"
-    },
     "user": {
       "type": "relation",
       "relation": "manyToOne",
@@ -39,6 +34,12 @@
       "type": "biginteger",
       "required": true,
       "unique": true
+    },
+    "cotizacion": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::quotation.quotation",
+      "inversedBy": "pago"
     }
   }
 }

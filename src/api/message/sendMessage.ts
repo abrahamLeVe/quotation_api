@@ -1,9 +1,9 @@
 const axios = require("axios");
 
-export async function senMessage(id) {
+export async function senMessage(id: number, title: string) {
   const message = {
     notification: {
-      title: "Nueva cotización",
+      title: `${title}`,
       body: `Código: ${id}`,
     },
     data: {
