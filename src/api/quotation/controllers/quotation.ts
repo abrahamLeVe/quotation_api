@@ -68,8 +68,9 @@ export default factories.createCoreController("api::quotation.quotation", {
       const userData = {
         observer: false,
       };
+      // console.log("data ", JSON.stringify(data, null, 2));
 
-      if (data.publishedAt !== null) {
+      if (data.publishedAt !== null || data.codeStatus === "Vencido") {
         if (data.codeStatus !== "Completada") {
           await strapi.entityService.update(
             "plugin::users-permissions.user",

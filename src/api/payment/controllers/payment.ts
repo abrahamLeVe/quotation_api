@@ -11,13 +11,6 @@ export default factories.createCoreController("api::payment.payment", {
         observer: false,
       };
 
-      // Encontrar el estado de la cotización
-      // const status = await strapi.entityService.findMany("api::state.state", {
-      //   filters: {
-      //     code: "CERR",
-      //   },
-      // });
-
       const payment = await strapi.service("api::payment.payment").create(body);
 
       const quotationUp = await strapi.entityService.update(
@@ -39,7 +32,7 @@ export default factories.createCoreController("api::payment.payment", {
         { data: userData }
       );
 
-      await senMessage(body.data.payment_id, "Nuevo pago");
+      await senMessage(body.data.cotizacion.id, "Nuevo pago");
 
       ctx.response.status = 200;
       ctx.body = {

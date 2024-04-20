@@ -10,7 +10,7 @@ export const sendtemplateEmailPayment = (quotation: any, payment: any) => {
         <style>
           body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f9; color: #333; }
           h2 { color: #444; }
-          a { color: #000080 !important; text-decoration: none; }
+          a { color: #fff !important; text-decoration: none; }
           .footer { background-color: #f0f0f0; padding: 20px; text-align: center; }
           .button { background-color: #4CAF50; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 5px; }
           .logo { max-width: 200px; margin-bottom: 20px; }
