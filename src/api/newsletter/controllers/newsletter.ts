@@ -6,16 +6,19 @@ export default factories.createCoreController("api::newsletter.newsletter", {
     try {
       const { body } = ctx.request;
       await strapi.service("api::newsletter.newsletter").create(body);
-
       await sendEmailNewsLleter(body.data.email);
 
       return {
         message: "Suscripción creada correctamente",
       };
     } catch (error) {
-      ctx.throw(500, "Error al crear la suscripción", {
-        details: error.message,
-      });
+      strapi.log.error("Failed to create newsletter subscription", { error });
+
+      ctx.response.status = 500;
+      return {
+        message:
+          "Error al procesar la solicitud, por favor intente de nuevo más tarde.",
+      };
     }
   },
 });

@@ -911,6 +911,128 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
   };
 }
 
+export interface ApiContactContact extends Schema.CollectionType {
+  collectionName: 'contacts';
+  info: {
+    singularName: 'contact';
+    pluralName: 'contacts';
+    displayName: 'contact';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    contact_type: Attribute.Relation<
+      'api::contact.contact',
+      'manyToOne',
+      'api::contact-type.contact-type'
+    >;
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 90;
+      }>;
+    email: Attribute.Email &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 5;
+        maxLength: 90;
+      }>;
+    phone: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 6;
+        maxLength: 12;
+      }>;
+    message: Attribute.Text &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 300;
+      }>;
+    responseContact: Attribute.RichText;
+    stateMessage: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 70;
+      }>;
+    rating: Attribute.Integer &
+      Attribute.Required &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+          max: 5;
+        },
+        number
+      > &
+      Attribute.DefaultTo<0>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::contact.contact',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::contact.contact',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiContactTypeContactType extends Schema.CollectionType {
+  collectionName: 'contact_types';
+  info: {
+    singularName: 'contact-type';
+    pluralName: 'contact-types';
+    displayName: 'contactType';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 90;
+      }>;
+    description: Attribute.Text;
+    contacts: Attribute.Relation<
+      'api::contact-type.contact-type',
+      'oneToMany',
+      'api::contact.contact'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::contact-type.contact-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::contact-type.contact-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiDocumentDocument extends Schema.CollectionType {
   collectionName: 'documents';
   info: {
@@ -1318,6 +1440,61 @@ export interface ApiProductColorProductColor extends Schema.CollectionType {
   };
 }
 
+export interface ApiProductRatingProductRating extends Schema.CollectionType {
+  collectionName: 'product_ratings';
+  info: {
+    singularName: 'product-rating';
+    pluralName: 'product-ratings';
+    displayName: 'Product Rating';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    rating: Attribute.Integer &
+      Attribute.Required &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+          max: 5;
+        },
+        number
+      > &
+      Attribute.DefaultTo<0>;
+    producto: Attribute.Relation<
+      'api::product-rating.product-rating',
+      'oneToOne',
+      'api::product.product'
+    >;
+    user: Attribute.Relation<
+      'api::product-rating.product-rating',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    message: Attribute.Text &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 300;
+      }>;
+    state: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::product-rating.product-rating',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::product-rating.product-rating',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiQuotationQuotation extends Schema.CollectionType {
   collectionName: 'quotations';
   info: {
@@ -1650,6 +1827,8 @@ declare module '@strapi/types' {
       'plugin::i18n.locale': PluginI18NLocale;
       'api::brand.brand': ApiBrandBrand;
       'api::category.category': ApiCategoryCategory;
+      'api::contact.contact': ApiContactContact;
+      'api::contact-type.contact-type': ApiContactTypeContactType;
       'api::document.document': ApiDocumentDocument;
       'api::model.model': ApiModelModel;
       'api::newsletter.newsletter': ApiNewsletterNewsletter;
@@ -1657,6 +1836,7 @@ declare module '@strapi/types' {
       'api::price.price': ApiPricePrice;
       'api::product.product': ApiProductProduct;
       'api::product-color.product-color': ApiProductColorProductColor;
+      'api::product-rating.product-rating': ApiProductRatingProductRating;
       'api::quotation.quotation': ApiQuotationQuotation;
       'api::size.size': ApiSizeSize;
       'api::slider.slider': ApiSliderSlider;
