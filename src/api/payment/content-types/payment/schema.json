@@ -40,6 +40,12 @@
       "relation": "oneToOne",
       "target": "api::quotation.quotation",
       "inversedBy": "pago"
+    },
+    "state_pay": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::state-pay.state-pay",
+      "inversedBy": "pagos"
     }
   }
 }

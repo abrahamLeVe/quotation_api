@@ -10,9 +10,9 @@ export const sendtemplateEmailPayment = (quotation: any, payment: any) => {
         <style>
           body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f9; color: #333; }
           h2 { color: #444; }
-          a { color: #fff !important; text-decoration: none; }
+          a { color: black;  }
           .footer { background-color: #f0f0f0; padding: 20px; text-align: center; }
-          .button { background-color: #4CAF50; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 5px; }
+          .button { background-color: #4CAF50; color: white !important; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 5px; }
           .logo { max-width: 200px; margin-bottom: 20px; }
         </style>
       </head>
@@ -22,7 +22,16 @@ export const sendtemplateEmailPayment = (quotation: any, payment: any) => {
           <p><strong>Gracias por su compra</strong>, a continuación encontrará el detalle su compra.
           Si tiene alguna pregunta o necesita más información, no dude en contactarnos.</p>
           <p><strong>Id mercado pago:</strong> ${payment.payment_id}</p>
-          <p><strong>Estado de pago:</strong> Aprobado</p>
+         <p><strong>Estado de pago:</strong> ${
+           payment.status === "approved"
+             ? "Aprobado"
+             : payment.status === "in_process"
+             ? "En proceso"
+             : payment.status === "cancelled"
+             ? "Anulado"
+             : "Pago pendiente"
+         }</p>
+
           <p><strong>Fecha de pago:</strong> ${formatDate(
             payment.createdAt
           )}</p>

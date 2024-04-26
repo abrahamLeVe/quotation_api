@@ -5,13 +5,15 @@ export const sendEmailContact = async (
   id: number,
   createdAt: string,
   stateMessage: boolean,
-  responseContact?: string
+  responseContact?: string,
+  publishedAt?: string | null | undefined
 ) => {
   const tempplate = sendtemplateEmailContact(
     id,
     createdAt,
     stateMessage,
-    responseContact
+    responseContact,
+    publishedAt
   );
 
   try {

@@ -916,7 +916,7 @@ export interface ApiContactContact extends Schema.CollectionType {
   info: {
     singularName: 'contact';
     pluralName: 'contacts';
-    displayName: 'contact';
+    displayName: 'Contactos';
     description: '';
   };
   options: {
@@ -1192,6 +1192,11 @@ export interface ApiPaymentPayment extends Schema.CollectionType {
       'api::payment.payment',
       'oneToOne',
       'api::quotation.quotation'
+    >;
+    state_pay: Attribute.Relation<
+      'api::payment.payment',
+      'manyToOne',
+      'api::state-pay.state-pay'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -1743,6 +1748,59 @@ export interface ApiStateState extends Schema.CollectionType {
   };
 }
 
+export interface ApiStatePayStatePay extends Schema.CollectionType {
+  collectionName: 'state_pays';
+  info: {
+    singularName: 'state-pay';
+    pluralName: 'state-pays';
+    displayName: 'state pay';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 50;
+      }>;
+    codeStatus: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 20;
+      }>;
+    pagos: Attribute.Relation<
+      'api::state-pay.state-pay',
+      'oneToMany',
+      'api::payment.payment'
+    >;
+    description: Attribute.Text &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 80;
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::state-pay.state-pay',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::state-pay.state-pay',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiSubCategorySubCategory extends Schema.CollectionType {
   collectionName: 'sub_categories';
   info: {
@@ -1841,6 +1899,7 @@ declare module '@strapi/types' {
       'api::size.size': ApiSizeSize;
       'api::slider.slider': ApiSliderSlider;
       'api::state.state': ApiStateState;
+      'api::state-pay.state-pay': ApiStatePayStatePay;
       'api::sub-category.sub-category': ApiSubCategorySubCategory;
     }
   }

@@ -4,8 +4,10 @@ export const sendtemplateEmailContact = (
   id: number,
   createdAt: string,
   stateMessage: boolean,
-  responseContact?: string
+  responseContact?: string,
+  publishedAt?: string | null | undefined
 ) => {
+  console.log(publishedAt, stateMessage);
   const emailTemplate = {
     subject: `Consulta N° ${id}`,
     text: ``,
@@ -29,7 +31,7 @@ export const sendtemplateEmailContact = (
         padding: 20px;
         max-width: 600px;
         margin: auto;
-        text-align: center;
+        text-align: left;
     }
     a {
         display: inline-block;
@@ -47,19 +49,20 @@ export const sendtemplateEmailContact = (
         <h1>Gracias por contactarse con nosotros</h1>
         <p><strong>Código de consulta:</strong> ${id}</p>
         <p><strong>Fecha de Creación:</strong> ${formatDate(createdAt)}</p>
+       
         <p><strong>Estado: </strong> ${
-          !stateMessage ? "En proceso" : "Cerrado"
+          publishedAt && !stateMessage ? "En proceso" : "Cerrado"
         }</p>
-        ${
-          stateMessage === false
-            ? "<p>Su mensaje está en proceso de atención, muy pronto recibirá su respuesta.</p>"
-            : "<p>Su mensaje a sido atendida, y pasa a cerrado.</p>"
-        }
-        ${
-          !responseContact
-            ? ""
-            : `<p><strong>Detalles adicionales: </strong> ${responseContact}</p>`
-        }
+    ${
+      publishedAt && !stateMessage
+        ? `<p>Su mensaje está en proceso de atención, muy pronto recibirá su respuesta.</p>`
+        : "<p>Su mensaje ha sido atendido, y pasa a cerrado.</p>"
+    }
+    ${
+      responseContact
+        ? `<p><strong>Detalles adicionales: </strong> ${responseContact}</p>`
+        : ""
+    }
        
         <a href="${process.env.CLIENT_URL}">Visite nuestra tienda virtual</a>
         <p>Gracias por utilizar nuestros servicios.</p>
