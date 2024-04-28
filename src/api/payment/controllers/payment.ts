@@ -78,17 +78,6 @@ export default factories.createCoreController("api::payment.payment", {
           publishedAt = data.publishedAt;
         }
 
-        const quotationUp = await strapi.entityService.update(
-          "api::quotation.quotation",
-          data.quotationId,
-          {
-            data: {
-              codeStatus: codeStatus,
-              state: idStatus,
-            },
-          }
-        );
-
         await strapi.entityService.update(
           "plugin::users-permissions.user",
           data.userId,
@@ -102,6 +91,19 @@ export default factories.createCoreController("api::payment.payment", {
             data: {
               status: payStatus,
               publishedAt: publishedAt,
+            },
+          }
+        );
+        const quotationUp = await strapi.entityService.update(
+          "api::quotation.quotation",
+          data.quotationId,
+          {
+            data: {
+              codeStatus: codeStatus,
+              state: idStatus,
+              notes:
+                "Cancelado mediante Mercado Pago ID de pago N°: " +
+                payment.payment_id,
             },
           }
         );
