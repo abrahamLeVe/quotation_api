@@ -1076,6 +1076,31 @@ export interface ApiDocumentDocument extends Schema.CollectionType {
   };
 }
 
+export interface ApiFcmFcm extends Schema.CollectionType {
+  collectionName: 'fcms';
+  info: {
+    singularName: 'fcm';
+    pluralName: 'fcms';
+    displayName: 'fcm';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    token: Attribute.Text &
+      Attribute.Required &
+      Attribute.Private &
+      Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::fcm.fcm', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::fcm.fcm', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 export interface ApiModelModel extends Schema.CollectionType {
   collectionName: 'models';
   info: {
@@ -1888,6 +1913,7 @@ declare module '@strapi/types' {
       'api::contact.contact': ApiContactContact;
       'api::contact-type.contact-type': ApiContactTypeContactType;
       'api::document.document': ApiDocumentDocument;
+      'api::fcm.fcm': ApiFcmFcm;
       'api::model.model': ApiModelModel;
       'api::newsletter.newsletter': ApiNewsletterNewsletter;
       'api::payment.payment': ApiPaymentPayment;
