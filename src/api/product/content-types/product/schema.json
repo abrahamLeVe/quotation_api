@@ -52,11 +52,9 @@
       "minLength": 3
     },
     "rating": {
-      "type": "decimal",
+      "type": "integer",
       "default": 0,
-      "required": true,
-      "max": 5,
-      "min": 0
+      "required": true
     },
     "brand": {
       "type": "relation",
@@ -99,6 +97,11 @@
       "relation": "manyToMany",
       "target": "api::product-color.product-color",
       "inversedBy": "products"
+    },
+    "rating_count": {
+      "type": "integer",
+      "required": true,
+      "default": 0
     }
   }
 }

@@ -1346,16 +1346,7 @@ export interface ApiProductProduct extends Schema.CollectionType {
         minLength: 3;
         maxLength: 256;
       }>;
-    rating: Attribute.Decimal &
-      Attribute.Required &
-      Attribute.SetMinMax<
-        {
-          min: 0;
-          max: 5;
-        },
-        number
-      > &
-      Attribute.DefaultTo<0>;
+    rating: Attribute.Integer & Attribute.Required & Attribute.DefaultTo<0>;
     brand: Attribute.Relation<
       'api::product.product',
       'manyToOne',
@@ -1391,6 +1382,9 @@ export interface ApiProductProduct extends Schema.CollectionType {
       'manyToMany',
       'api::product-color.product-color'
     >;
+    rating_count: Attribute.Integer &
+      Attribute.Required &
+      Attribute.DefaultTo<0>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1463,61 +1457,6 @@ export interface ApiProductColorProductColor extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::product-color.product-color',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiProductRatingProductRating extends Schema.CollectionType {
-  collectionName: 'product_ratings';
-  info: {
-    singularName: 'product-rating';
-    pluralName: 'product-ratings';
-    displayName: 'Product Rating';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    rating: Attribute.Integer &
-      Attribute.Required &
-      Attribute.SetMinMax<
-        {
-          min: 0;
-          max: 5;
-        },
-        number
-      > &
-      Attribute.DefaultTo<0>;
-    producto: Attribute.Relation<
-      'api::product-rating.product-rating',
-      'oneToOne',
-      'api::product.product'
-    >;
-    user: Attribute.Relation<
-      'api::product-rating.product-rating',
-      'oneToOne',
-      'plugin::users-permissions.user'
-    >;
-    message: Attribute.Text &
-      Attribute.SetMinMaxLength<{
-        minLength: 3;
-        maxLength: 300;
-      }>;
-    state: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::product-rating.product-rating',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::product-rating.product-rating',
       'oneToOne',
       'admin::user'
     > &
@@ -1623,6 +1562,58 @@ export interface ApiQuotationQuotation extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::quotation.quotation',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiReviewReview extends Schema.CollectionType {
+  collectionName: 'reviews';
+  info: {
+    singularName: 'review';
+    pluralName: 'reviews';
+    displayName: 'review';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    rating: Attribute.Integer &
+      Attribute.Required &
+      Attribute.SetMinMax<
+        {
+          max: 5;
+        },
+        number
+      > &
+      Attribute.DefaultTo<0>;
+    product: Attribute.Relation<
+      'api::review.review',
+      'oneToOne',
+      'api::product.product'
+    >;
+    user: Attribute.Relation<
+      'api::review.review',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    message: Attribute.Text &
+      Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::review.review',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::review.review',
       'oneToOne',
       'admin::user'
     > &
@@ -1920,8 +1911,8 @@ declare module '@strapi/types' {
       'api::price.price': ApiPricePrice;
       'api::product.product': ApiProductProduct;
       'api::product-color.product-color': ApiProductColorProductColor;
-      'api::product-rating.product-rating': ApiProductRatingProductRating;
       'api::quotation.quotation': ApiQuotationQuotation;
+      'api::review.review': ApiReviewReview;
       'api::size.size': ApiSizeSize;
       'api::slider.slider': ApiSliderSlider;
       'api::state.state': ApiStateState;
