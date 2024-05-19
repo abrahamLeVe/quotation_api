@@ -4,7 +4,8 @@
   "info": {
     "singularName": "review",
     "pluralName": "reviews",
-    "displayName": "review"
+    "displayName": "review",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -30,6 +31,11 @@
     "message": {
       "type": "text",
       "maxLength": 200
+    },
+    "stateReview": {
+      "type": "boolean",
+      "default": false,
+      "required": true
     }
   }
 }

@@ -20,7 +20,6 @@ export async function senMessage(id: number, title: string) {
     data: message,
   };
 
-  // @ts-ignore
   const sendMessageRes = await axios(requestOptions);
 
   if (sendMessageRes.status !== 200) {

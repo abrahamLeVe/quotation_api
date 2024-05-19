@@ -1,15 +1,17 @@
 import { factories } from "@strapi/strapi";
 import { sendEmailPayment } from "../../email/services/paymentService";
 import { senMessage } from "../../message/sendMessage";
+import { handleEvent } from "../../message/eventService";
 
 export default factories.createCoreController("api::payment.payment", {
   async create(ctx) {
-    try {
-      const userData = {
-        observer: false,
-      };
-      const { body } = ctx.request;
+    const userData = {
+      observer: false,
+    };
+    const { body } = ctx.request;
+    console.log("ctx createPayment:", JSON.stringify(ctx, null, 2));
 
+    try {
       let payStatus = "Pago pendiente";
       let idStatus = 8;
       const payment = await strapi.service("api::payment.payment").create(body);
@@ -34,7 +36,10 @@ export default factories.createCoreController("api::payment.payment", {
           },
         }
       );
-
+      console.log(
+        "paymentCreate quotationUp:",
+        JSON.stringify(quotationUp, null, 2)
+      );
       await sendEmailPayment(quotationUp.email, quotationUp, payment);
 
       await senMessage(body.data.cotizacion.id, "Nuevo pago");
@@ -44,13 +49,19 @@ export default factories.createCoreController("api::payment.payment", {
         message: "Pago registrado correctamente",
       };
     } catch (error) {
-      ctx.throw(500, "Error al crear el pago", {
-        details: error.message,
+      await handleEvent({
+        type: "error",
+        details: {
+          id: body.data.cotizacion.id,
+          message: error.message,
+        },
       });
+      ctx.throw(500, "Error al crear el pago", { details: error.message });
     }
   },
 
   async update(ctx) {
+    console.log("update payment:", JSON.stringify(ctx, null, 2));
     try {
       const userData = {
         observer: false,
@@ -94,6 +105,7 @@ export default factories.createCoreController("api::payment.payment", {
             },
           }
         );
+
         const quotationUp = await strapi.entityService.update(
           "api::quotation.quotation",
           data.quotationId,

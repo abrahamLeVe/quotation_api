@@ -4,16 +4,17 @@ import { senMessage } from "../../message/sendMessage";
 
 export default factories.createCoreController("api::quotation.quotation", {
   async create(ctx) {
+    const { body } = ctx.request;
+    const userData = {
+      observer: true,
+    };
+    console.log("Received ctx:", JSON.stringify(ctx, null, 2));
+
     try {
       const user = ctx.state.user;
       if (user.observer) {
         ctx.throw(403, "Ya tiene una cotización en proceso.");
       }
-
-      const { body } = ctx.request;
-      const userData = {
-        observer: true,
-      };
 
       const quotation = await strapi
         .service("api::quotation.quotation")
@@ -68,7 +69,8 @@ export default factories.createCoreController("api::quotation.quotation", {
       const userData = {
         observer: false,
       };
-      // console.log("data ", JSON.stringify(data, null, 2));
+
+      console.log("ctx updateQuotation ", JSON.stringify(ctx, null, 2));
 
       if (data.publishedAt !== null || data.codeStatus === "Vencido") {
         if (data.codeStatus !== "Completada") {

@@ -1076,6 +1076,55 @@ export interface ApiDocumentDocument extends Schema.CollectionType {
   };
 }
 
+export interface ApiEventEvent extends Schema.CollectionType {
+  collectionName: 'events';
+  info: {
+    singularName: 'event';
+    pluralName: 'events';
+    displayName: 'event';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    evenType: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 60;
+      }>;
+    details: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 60;
+      }>;
+    user: Attribute.Relation<
+      'api::event.event',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    quotation: Attribute.JSON;
+    quotationId: Attribute.String;
+    paymentId: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::event.event',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::event.event',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiFcmFcm extends Schema.CollectionType {
   collectionName: 'fcms';
   info: {
@@ -1575,6 +1624,7 @@ export interface ApiReviewReview extends Schema.CollectionType {
     singularName: 'review';
     pluralName: 'reviews';
     displayName: 'review';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -1603,6 +1653,9 @@ export interface ApiReviewReview extends Schema.CollectionType {
       Attribute.SetMinMaxLength<{
         maxLength: 200;
       }>;
+    stateReview: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1904,6 +1957,7 @@ declare module '@strapi/types' {
       'api::contact.contact': ApiContactContact;
       'api::contact-type.contact-type': ApiContactTypeContactType;
       'api::document.document': ApiDocumentDocument;
+      'api::event.event': ApiEventEvent;
       'api::fcm.fcm': ApiFcmFcm;
       'api::model.model': ApiModelModel;
       'api::newsletter.newsletter': ApiNewsletterNewsletter;
